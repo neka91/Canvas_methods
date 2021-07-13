@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drawing on canvas</title>
+    <style>
+        #bgImage {
+            border: 1px solid grey;
+            margin-bottom: 30px;
+            height: 200px;
+            width: 400px;
+        }
+
+        canvas {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <img src="images/bg_image.jpg" alt="Background image" id="bgImage"><br>
+    <canvas id="canvas1"></canvas>
+    <canvas id="canvas2"></canvas>
+    <canvas id="canvas3"></canvas>
+    <canvas id="canvas4"></canvas>
+
+    <script>
+        window.onload = initiate;
+
+        let canvas = document.querySelectorAll('canvas');
+        for (let i = 0; i < canvas.length; i++) {
+            canvas[i].addEventListener('mouseover', function () {
+                document.getElementById('bgImage').src = event.target.toDataURL();
+            })
+        }
+
+        let canvas1 = document.getElementById('canvas1');
+        let ctx1 = canvas1.getContext('2d');
+        let grd1 = ctx1.createLinearGradient(0, 0, 200, 0);
+        grd1.addColorStop(0, 'blue');
+        grd1.addColorStop(1, 'white');
+        ctx1.fillStyle = grd1;
+        ctx1.fillRect(5, 5, 150, 100);
+        ctx1.stroke();
+        ctx1.fill();
+
+        let canvas2 = document.getElementById('canvas2');
+        let ctx2 = canvas2.getContext('2d');
+        let grd2 = ctx2.createRadialGradient(45, 20, 5, 60, 30, 70);
+        grd2.addColorStop(0, 'yellow');
+        grd2.addColorStop(1, 'white');
+        ctx2.beginPath();
+        ctx2.fillStyle = grd2;
+        ctx2.arc(60, 60, 50, 0, 2 * Math.PI);
+        ctx2.stroke();
+        ctx2.fill();
+
+        let canvas3 = document.getElementById('canvas3');
+        let ctx3 = canvas3.getContext('2d');
+        ctx3.font = '30px Arial';
+        ctx3.strokeText('Hello World', 10, 50);
+
+        let canvas4 = document.getElementById('canvas4');
+        let ctx4 = canvas4.getContext('2d');
+        canvas4.height = 150;
+        canvas4.width = 300;
+        let pos = { x: 0, y: 50 };
+
+        function initiate() {
+            draw();
+        }
+
+        function draw() {
+            pos.x = pos.x + 5;
+            if (pos.x > canvas4.width) {
+                pos.x = 0;
+            }
+
+            ctx4.clearRect(0, 0, canvas4.width, canvas4.height);
+            ctx4.beginPath();
+            ctx4.fillStyle = 'green';
+            ctx4.arc(pos.x, pos.y, 50, 0, 2 * Math.PI);
+            ctx4.fill();
+            ctx4.closePath();
+
+            window.setTimeout(draw, 50);
+        }
+    </script>
+</body>
+
+</html>
